@@ -74,7 +74,7 @@ extension LoginViewController : LoginViewModelDelegate {
             self.userNameTextField.delegate = self
             self.passwordTextField.delegate = self
             UtilClass.utilitySharedInstance.hideActivityIndicator()
-            UtilClass.displayAlertView(titleText: kErrorTitle, message: self.viewModel?.errorMessage ?? kGENERIC_ERROR_MESSAGE, viewController: self)
+            UtilClass.displayAlertView(titleText: kERROR_TITLE, message: self.viewModel?.errorMessage ?? kGENERIC_ERROR_MESSAGE, viewController: self)
             self.view.isUserInteractionEnabled = true
         })
     }

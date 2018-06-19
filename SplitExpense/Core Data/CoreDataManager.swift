@@ -32,7 +32,7 @@ class CoreDataManager {
         }
     }
     
-    func saveUserData(_ firstName:String, _ lastName:String,_ email: String, _ phoneNumber: String, _ password:String, successBlock:() -> Void, failedBlock:() -> Void)  {
+    func saveUserData(_ firstName:String, _ lastName:String,_ email: String, _ phoneNumber: String, _ password:String, successWithMessage:(_ message: String) -> Void, failedWithError: (_ errorMessage: String?) -> Void)  {
         
         isDuplicatePhoneNumber(phoneNumber, successBlock: {
             let entityDescriptor = NSEntityDescription.entity(forEntityName: KUSER_ENTITY_NAME, in: persistentContainer.viewContext)
@@ -45,10 +45,10 @@ class CoreDataManager {
             user.setValue(password, forKey: "password")
             
             saveContext()
-            successBlock()
+            successWithMessage(kSUCCESSFULLY_DATA_SAVED)
         }) {
             print("Duplicate Record")
-            failedBlock()
+            failedWithError(kDUPLICATE_PHONENUMBER)
         }
     }
     
