@@ -30,7 +30,48 @@ class CoreDataManager {
             print("Could not fetch. \(error), \(error.userInfo)")
             failedWithError("DB Error")
         }
+    }
+    
+    func saveUserData(_ firstName:String, _ lastName:String,_ email: String, _ phoneNumber: String, _ password:String, successBlock:() -> Void, failedBlock:() -> Void)  {
         
+        isDuplicatePhoneNumber(phoneNumber, successBlock: {
+            let entityDescriptor = NSEntityDescription.entity(forEntityName: "Users", in: persistentContainer.viewContext)
+            let user = NSManagedObject(entity: entityDescriptor!, insertInto: persistentContainer.viewContext)
+            
+            user.setValue(firstName, forKey: "firstName")
+            user.setValue(lastName, forKey: "lastName")
+            user.setValue(email, forKey: "emailAddresss")
+            user.setValue(phoneNumber, forKey: "phoneNumber")
+            //  user.setValue(password, forKey: "password")
+            
+            saveContext()
+            successBlock()
+        }) {
+            print("Duplicate Record")
+            failedBlock()
+        }
+    }
+    
+    func isDuplicatePhoneNumber(_ phoneNumber : String, successBlock: () -> Void, failiourBlock: () -> Void ) {
+        let user : [Users]?
+        
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Users")
+        fetchRequest.predicate = NSPredicate(format: "phoneNumber == %@", phoneNumber)
+        
+        do {
+            user = try persistentContainer.viewContext.fetch(fetchRequest) as? [Users]
+            print(user ?? "no users")
+            if  (user?.count)! == 0 {
+                successBlock()
+            }
+            else {
+                failiourBlock()
+            }
+            
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+            failiourBlock()
+        }
     }
     
     

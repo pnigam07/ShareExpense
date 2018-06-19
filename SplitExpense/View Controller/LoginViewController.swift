@@ -40,6 +40,9 @@ class LoginViewController: UIViewController {
             viewModel?.login(withPhoneNumber: userNameTextField.text!, andPassword: passwordTextField.text!)
         }
     }
+    
+    @IBAction func signupButtonTapped(_ sender: Any) {
+    }
 }
 
 extension LoginViewController : LoginViewModelDelegate {
@@ -56,9 +59,6 @@ extension LoginViewController : LoginViewModelDelegate {
             self.passwordTextField.delegate = nil
             UtilClass.utilitySharedInstance.hideActivityIndicator()
             
-            UtilClass.utilitySharedInstance.hideActivityIndicator()
-            Authentication.addUserDetailToUserDefault((self.viewModel?.userProfile?.phoneNumber)!)
-            
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             let rootController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DashBoardViewController")
             appDelegate.window?.rootViewController = rootController
@@ -73,6 +73,8 @@ extension LoginViewController : LoginViewModelDelegate {
             
             self.userNameTextField.delegate = self
             self.passwordTextField.delegate = self
+            
+            UtilClass.utilitySharedInstance.hideActivityIndicator()
             
             
             self.view.isUserInteractionEnabled = true
@@ -113,4 +115,3 @@ extension LoginViewController : UITextFieldDelegate {
         super.touchesBegan(touches, with: event)
     }
 }
-
