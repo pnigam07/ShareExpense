@@ -13,7 +13,7 @@ class CoreDataManager {
     
     func getUserDetailWith(phoneNumber: String, password: String, successWithUserProfile:(_ userProfile: Users) -> Void, failedWithError: (_ errorMessage: String?) -> Void) {
         
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Users")
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: KUSER_ENTITY_NAME)
         fetchRequest.predicate = NSPredicate(format: "phoneNumber = %@ AND password = %@",phoneNumber,password)
         
         do {
@@ -23,19 +23,19 @@ class CoreDataManager {
                 successWithUserProfile((user?[0])!)
             }
             else {
-                failedWithError("no record found")
+                failedWithError(kRECORD_NOT_PRESENT)
             }
             
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
-            failedWithError("DB Error")
+            failedWithError(kGENERIC_ERROR_MESSAGE)
         }
     }
     
     func saveUserData(_ firstName:String, _ lastName:String,_ email: String, _ phoneNumber: String, _ password:String, successBlock:() -> Void, failedBlock:() -> Void)  {
         
         isDuplicatePhoneNumber(phoneNumber, successBlock: {
-            let entityDescriptor = NSEntityDescription.entity(forEntityName: "Users", in: persistentContainer.viewContext)
+            let entityDescriptor = NSEntityDescription.entity(forEntityName: KUSER_ENTITY_NAME, in: persistentContainer.viewContext)
             let user = NSManagedObject(entity: entityDescriptor!, insertInto: persistentContainer.viewContext)
             
             user.setValue(firstName, forKey: "firstName")
@@ -55,7 +55,7 @@ class CoreDataManager {
     func isDuplicatePhoneNumber(_ phoneNumber : String, successBlock: () -> Void, failiourBlock: () -> Void ) {
         let user : [Users]?
         
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Users")
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: KUSER_ENTITY_NAME)
         fetchRequest.predicate = NSPredicate(format: "phoneNumber == %@", phoneNumber)
         
         do {
@@ -86,7 +86,7 @@ class CoreDataManager {
          application to it. This property is optional since there are legitimate
          error conditions that could cause the creation of the store to fail.
          */
-        let container = NSPersistentContainer(name: "SplitExpense")
+        let container = NSPersistentContainer(name: kDATABASE_NAME)
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.

@@ -18,6 +18,7 @@ class LoginViewModel : NSObject {
 
     var currentUser : NSString?
     var userProfile : Users?
+    var errorMessage : String?
     
     var delegate : LoginViewModelDelegate?
     
@@ -35,9 +36,8 @@ class LoginViewModel : NSObject {
             delegate?.onLogin()
             
         }) { (errorMessage) in
-            
+            self.errorMessage = kRECORD_NOT_PRESENT
             delegate?.onLoginFailed()
-            print("No user found")
         }
     }
     
@@ -46,7 +46,7 @@ class LoginViewModel : NSObject {
         Authentication().removeUserDetail()
         
         guard let appDel = UIApplication.shared.delegate as? AppDelegate else { return }
-        let rootController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "LoginViewController")
+        let rootController = UIStoryboard(name: KMAINSTORYBOARDNAME, bundle: Bundle.main).instantiateViewController(withIdentifier: kLOGIN_VIEW_CONTROLLER_IDENTIFIER)
         appDel.window?.rootViewController = rootController
     }
 }

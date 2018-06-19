@@ -60,7 +60,7 @@ extension LoginViewController : LoginViewModelDelegate {
             UtilClass.utilitySharedInstance.hideActivityIndicator()
             
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            let rootController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DashBoardViewController")
+            let rootController = UIStoryboard(name: KMAINSTORYBOARDNAME, bundle: Bundle.main).instantiateViewController(withIdentifier: "DashBoardViewController")
             appDelegate.window?.rootViewController = rootController
         })
     }
@@ -73,10 +73,8 @@ extension LoginViewController : LoginViewModelDelegate {
             
             self.userNameTextField.delegate = self
             self.passwordTextField.delegate = self
-            
             UtilClass.utilitySharedInstance.hideActivityIndicator()
-            
-            
+            UtilClass.displayAlertView(titleText: kErrorTitle, message: self.viewModel?.errorMessage ?? kGENERIC_ERROR_MESSAGE, viewController: self)
             self.view.isUserInteractionEnabled = true
         })
     }
