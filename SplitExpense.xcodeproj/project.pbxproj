@@ -84,6 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				2C905F8020D8B46D00D9C387 /* SplitExpense */,
+				2C905FB520D8CE3100D9C387 /* Util */,
 				2C905F9820D8B46F00D9C387 /* SplitExpenseTests */,
 				2C905F7F20D8B46D00D9C387 /* Products */,
 			);
@@ -101,18 +102,15 @@
 		2C905F8020D8B46D00D9C387 /* SplitExpense */ = {
 			isa = PBXGroup;
 			children = (
-				2C6395CA20D8D10900E1D32E /* View Controller */,
-				2C905FB520D8CE3100D9C387 /* Util */,
-				2C905FAB20D8CA6B00D9C387 /* Core Data */,
-				2C905FA420D8BD7800D9C387 /* View Model */,
 				2C905F8120D8B46D00D9C387 /* AppDelegate.swift */,
+				2C6395CA20D8D10900E1D32E /* View Controller */,
+				2C905FA420D8BD7800D9C387 /* View Model */,
+				2C905FAB20D8CA6B00D9C387 /* Core Data */,
 				2C905F8520D8B46D00D9C387 /* Main.storyboard */,
 				2C905F8B20D8B46F00D9C387 /* Assets.xcassets */,
 				2C905F8D20D8B46F00D9C387 /* LaunchScreen.storyboard */,
 				2C905F9020D8B46F00D9C387 /* Info.plist */,
 				2C905F8820D8B46D00D9C387 /* SplitExpense.xcdatamodeld */,
-				2C905FAD20D8CB5100D9C387 /* Authentication.swift */,
-				2C905FAF20D8CB6C00D9C387 /* Constant.swift */,
 			);
 			path = SplitExpense;
 			sourceTree = "<group>";
@@ -155,6 +153,8 @@
 		2C905FB520D8CE3100D9C387 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				2C905FAD20D8CB5100D9C387 /* Authentication.swift */,
+				2C905FAF20D8CB6C00D9C387 /* Constant.swift */,
 				2C905FB620D8CE4300D9C387 /* UtilClass.swift */,
 			);
 			path = Util;

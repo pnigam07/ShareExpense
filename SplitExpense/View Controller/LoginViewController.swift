@@ -40,6 +40,9 @@ class LoginViewController: UIViewController {
             viewModel?.login(withPhoneNumber: userNameTextField.text!, andPassword: passwordTextField.text!)
         }
     }
+}
+
+extension LoginViewController : LoginViewModelDelegate {
     
     /**
      * onLogin delegate implementation.
@@ -51,10 +54,14 @@ class LoginViewController: UIViewController {
             
             self.userNameTextField.delegate = nil
             self.passwordTextField.delegate = nil
+            UtilClass.utilitySharedInstance.hideActivityIndicator()
             
             UtilClass.utilitySharedInstance.hideActivityIndicator()
-          
+            Authentication.addUserDetailToUserDefault((self.viewModel?.userProfile?.phoneNumber)!)
             
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let rootController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DashBoardViewController")
+            appDelegate.window?.rootViewController = rootController
         })
     }
     
@@ -70,19 +77,6 @@ class LoginViewController: UIViewController {
             
             self.view.isUserInteractionEnabled = true
         })
-    }
-    
-}
-
-extension LoginViewController : LoginViewModelDelegate {
-    
-    func loginSuccessFul() {
-        UtilClass.utilitySharedInstance.hideActivityIndicator()
-        Authentication.addUserDetailToUserDefault((viewModel?.userProfile?.phoneNumber)!)
-        
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let rootController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DashBoardViewController")
-        appDelegate.window?.rootViewController = rootController
     }
 }
 
