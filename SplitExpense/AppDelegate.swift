@@ -13,8 +13,7 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         if  Authentication().currentUser == nil {
@@ -24,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         else {
             // Move to dashboard
-            let rootController = UIStoryboard(name: KMAINSTORYBOARDNAME, bundle: Bundle.main).instantiateViewController(withIdentifier: "DashBoardViewController")
+            let rootController = UIStoryboard(name: KMAINSTORYBOARDNAME, bundle: Bundle.main).instantiateViewController(withIdentifier: kDASHBOARD_VIEW_CONTROLLER_IDENTIFIER)
             self.window?.rootViewController = rootController
         }
         return true
