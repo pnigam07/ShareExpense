@@ -11,6 +11,29 @@ import CoreData
 
 class CoreDataManager {
     
+    static let sharedInstanse =  CoreDataManager()
+    var allUsers: [Users]?
+    
+    
+    func getAllUser(successWithUserProfile:(_ userProfile: [Users]) -> Void, failedWithError: (_ errorMessage: String?) -> Void) {
+        
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: KUSER_ENTITY_NAME)
+        do {
+            let user = try persistentContainer.viewContext.fetch(fetchRequest) as? [Users]
+            print(user ?? "no users")
+            if  (user?.count)! != 0 {
+                allUsers = user
+                successWithUserProfile(user!)
+            }
+            else {
+                failedWithError(kRECORD_NOT_PRESENT)
+            }
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+            failedWithError(kGENERIC_ERROR_MESSAGE)
+        }
+    }
+    
     func getUserDetailWith(phoneNumber: String, password: String, successWithUserProfile:(_ userProfile: Users) -> Void, failedWithError: (_ errorMessage: String?) -> Void) {
         
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: KUSER_ENTITY_NAME)
@@ -77,7 +100,7 @@ class CoreDataManager {
     
     // MARK: - Core Data stack
     
-    static let sharedInstanse =  CoreDataManager()
+    
     
     lazy var persistentContainer: NSPersistentContainer = {
         /*

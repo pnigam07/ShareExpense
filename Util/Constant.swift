@@ -14,7 +14,7 @@ let kDATABASE_NAME = "SplitExpense"
 
 let KMAINSTORYBOARDNAME = "Main"
 let kLOGIN_VIEW_CONTROLLER_IDENTIFIER = "LoginViewController"
-let kDASHBOARD_VIEW_CONTROLLER_IDENTIFIER = "DashboardViewController"
+let kDASHBOARD_VIEW_CONTROLLER_IDENTIFIER = "abc"
 
 // MARK : Error message
 let kERROR_TITLE = "Error"
