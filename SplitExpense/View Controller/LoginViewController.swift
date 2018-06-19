@@ -53,16 +53,7 @@ class LoginViewController: UIViewController {
             self.passwordTextField.delegate = nil
             
             UtilClass.utilitySharedInstance.hideActivityIndicator()
-            //  UtilClass.makeToast(kLOGINSUCCESS)
-            /**
-             *  If user already logged in with G+ signIn
-             *
-             */
-            
-            
-            //            UtilClass.setUserAuthenticationStatus(true)
-            //Default View Controller: ContactsViewController
-            //Landing page
+          
             
         })
     }
