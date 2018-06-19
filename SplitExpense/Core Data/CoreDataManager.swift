@@ -14,7 +14,7 @@ class CoreDataManager {
     func getUserDetailWith(phoneNumber: String, password: String, successWithUserProfile:(_ userProfile: Users) -> Void, failedWithError: (_ errorMessage: String?) -> Void) {
         
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Users")
-        fetchRequest.predicate = NSPredicate(format: "phoneNumber == %@", phoneNumber)
+        fetchRequest.predicate = NSPredicate(format: "phoneNumber = %@ AND password = %@",phoneNumber,password)
         
         do {
             let user = try persistentContainer.viewContext.fetch(fetchRequest) as? [Users]
@@ -42,7 +42,7 @@ class CoreDataManager {
             user.setValue(lastName, forKey: "lastName")
             user.setValue(email, forKey: "emailAddresss")
             user.setValue(phoneNumber, forKey: "phoneNumber")
-            //  user.setValue(password, forKey: "password")
+            user.setValue(password, forKey: "password")
             
             saveContext()
             successBlock()
