@@ -35,3 +35,4 @@ let kINVALID_PASSWORD = "Invalid Password"
 // MARK : Tables name
 
 let KUSER_ENTITY_NAME = "Users"
+let KTRANSACTION_ENTITY_NAME = "Transaction"

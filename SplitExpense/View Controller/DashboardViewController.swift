@@ -12,6 +12,14 @@ class DashboardViewController : UIViewController  {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        CoreDataManager.sharedInstanse.getAllTransaction(successWithUserProfile: { (transaction) in
+            for item in transaction {
+                print(item.debitor ?? "no debitor")
+                print(item.amount)
+            }
+        }) { (message) in
+            print(message ?? "ne message")
+        }
         
     }
     

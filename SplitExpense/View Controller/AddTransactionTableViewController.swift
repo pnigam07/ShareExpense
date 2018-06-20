@@ -8,9 +8,26 @@
 
 import UIKit
 
-class AddTransactionTableViewController: UITableViewController {
+//class CustomCellWithTextField: UITableViewCell {
+//    let titltLabel : UILabel?
+//    let textField : UITextField?
+//}
+
+class AddTransactionTableViewController: UITableViewController,UITextFieldDelegate {
+    
+    var amount = 100.5
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if !(textField.text?.isEmpty)! {
+            amount = Double(textField.text!)!
+        }
+    }
     
     var viewModel : AddTransactionViewModel?
+    
+//    func addTransaction() {
+//        
+//    }
     
     override func viewDidLoad() {
         
@@ -21,6 +38,7 @@ class AddTransactionTableViewController: UITableViewController {
     
     @objc func addTransaction() {
         print("working")
+        CoreDataManager.sharedInstanse.AddTransaction(debitor: (viewModel?.debitor)!, creditor: (viewModel?.creditor)!, amount: amount)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -32,7 +50,7 @@ class AddTransactionTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "customCell")
+        var cell = tableView.dequeueReusableCell(withIdentifier: "customCell")
         if indexPath.row == 0 {
             cell?.textLabel?.text = "From"
             if viewModel?.debitor != nil {
@@ -52,8 +70,9 @@ class AddTransactionTableViewController: UITableViewController {
             }
         }
         else if indexPath.row == 2 {
-            cell?.textLabel?.text = "Amount"
-            cell?.detailTextLabel?.text = "0.0"
+            cell = tableView.dequeueReusableCell(withIdentifier: "cellWithTextField")
+//            cell?.textLabel?.text = "Amount"
+//            cell?.detailTextLabel?.text = "0.0"
         }
         return cell!
     }

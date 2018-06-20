@@ -14,6 +14,40 @@ class CoreDataManager {
     static let sharedInstanse =  CoreDataManager()
     var allUsers: [Users]?
     
+    func AddTransaction(debitor:Users, creditor: Users, amount: Double) {
+        
+        let entityDescriptorForTransaction = NSEntityDescription.entity(forEntityName: KTRANSACTION_ENTITY_NAME, in: persistentContainer.viewContext)
+//         let entityDescriptorForUser = NSEntityDescription.entity(forEntityName: KUSER_ENTITY_NAME, in: persistentContainer.viewContext)
+        let transaction = NSManagedObject(entity: entityDescriptorForTransaction!, insertInto: persistentContainer.viewContext) as! Transaction
+        transaction.amount = amount
+        transaction.creditor = creditor.firstName
+        transaction.debitor = debitor.firstName
+        transaction.isDebitor = debitor
+        transaction.isCreditor = creditor
+        
+        
+        
+        saveContext()
+    }
+    
+    func getAllTransaction(successWithUserProfile:(_ userProfile: [Transaction]) -> Void, failedWithError: (_ errorMessage: String?) -> Void) {
+        
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: KTRANSACTION_ENTITY_NAME)
+        do {
+            let transactions = try persistentContainer.viewContext.fetch(fetchRequest) as? [Transaction]
+            print(transactions ?? "no Transaction")
+            if  (transactions?.count)! != 0 {
+             //   allUsers = user
+                successWithUserProfile(transactions!)
+            }
+            else {
+                failedWithError(kRECORD_NOT_PRESENT)
+            }
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+            failedWithError(kGENERIC_ERROR_MESSAGE)
+        }
+    }
     
     func getAllUser(successWithUserProfile:(_ userProfile: [Users]) -> Void, failedWithError: (_ errorMessage: String?) -> Void) {
         
