@@ -508,7 +508,11 @@
                         <viewLayoutGuide key="safeArea" id="jvQ-Ps-7oH"/>
                     </view>
                     <navigationItem key="navigationItem" title="Dashboard" id="bXi-cS-BGH">
-                        <barButtonItem key="rightBarButtonItem" title="Logout" id="Tgn-Hp-rYh"/>
+                        <barButtonItem key="rightBarButtonItem" title="Logout" id="Tgn-Hp-rYh">
+                            <connections>
+                                <action selector="logout:" destination="gGJ-Xa-vit" id="bhA-Wc-9pm"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics"/>
                     <connections>

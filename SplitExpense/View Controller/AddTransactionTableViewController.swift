@@ -8,11 +8,6 @@
 
 import UIKit
 
-//class CustomCellWithTextField: UITableViewCell {
-//    let titltLabel : UILabel?
-//    let textField : UITextField?
-//}
-
 class AddTransactionTableViewController: UITableViewController,UITextFieldDelegate {
     
     var amount = 100.5
@@ -25,20 +20,17 @@ class AddTransactionTableViewController: UITableViewController,UITextFieldDelega
     
     var viewModel : AddTransactionViewModel?
     
-//    func addTransaction() {
-//        
-//    }
-    
     override func viewDidLoad() {
-        
-        
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(addTransaction))
-    
     }
     
     @objc func addTransaction() {
         print("working")
-        CoreDataManager.sharedInstanse.AddTransaction(debitor: (viewModel?.debitor)!, creditor: (viewModel?.creditor)!, amount: amount)
+        CoreDataManager.sharedInstanse.addTransaction(debitor: (viewModel?.debitor)!, creditor: (viewModel?.creditor)!, amount: amount, successBlock: {
+            UtilClass.displayAlertView(titleText: kSUCCESS_TITLE, message: kSUCCESSFULLY_DATA_SAVED, viewController: self)
+        }) { (errorMessage) in
+             UtilClass.displayAlertView(titleText: kERROR_TITLE, message: errorMessage, viewController: self)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -71,8 +63,6 @@ class AddTransactionTableViewController: UITableViewController,UITextFieldDelega
         }
         else if indexPath.row == 2 {
             cell = tableView.dequeueReusableCell(withIdentifier: "cellWithTextField")
-//            cell?.textLabel?.text = "Amount"
-//            cell?.detailTextLabel?.text = "0.0"
         }
         return cell!
     }
@@ -80,8 +70,6 @@ class AddTransactionTableViewController: UITableViewController,UITextFieldDelega
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Move to user Table if fiest and second row is clicked
         if indexPath.row == 0 || indexPath.row == 1 {
-            
-            
             // go to User list table view
             if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "UsersTableViewController") as? UsersTableViewController {
                 viewModel?.selectedRow = indexPath.row
@@ -90,14 +78,8 @@ class AddTransactionTableViewController: UITableViewController,UITextFieldDelega
                     viewController.viewModel = UserTableViewModel()
                     viewController.viewModel?.addTransactionVCReferanceObject = self
                     navigator.pushViewController(viewController, animated: true)
-                    
                 }
             }
-            
-        }
-        else {
-            // Amount view controller
-            
         }
     }
 }

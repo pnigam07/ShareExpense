@@ -14,10 +14,9 @@ class CoreDataManager {
     static let sharedInstanse =  CoreDataManager()
     var allUsers: [Users]?
     
-    func AddTransaction(debitor:Users, creditor: Users, amount: Double) {
+    func addTransaction(debitor:Users, creditor: Users, amount: Double,successBlock: () -> Void, failedBlock: (String) -> Void ) {
         
         let entityDescriptorForTransaction = NSEntityDescription.entity(forEntityName: KTRANSACTION_ENTITY_NAME, in: persistentContainer.viewContext)
-//         let entityDescriptorForUser = NSEntityDescription.entity(forEntityName: KUSER_ENTITY_NAME, in: persistentContainer.viewContext)
         let transaction = NSManagedObject(entity: entityDescriptorForTransaction!, insertInto: persistentContainer.viewContext) as! Transaction
         transaction.amount = amount
         transaction.creditor = creditor.firstName
@@ -27,7 +26,11 @@ class CoreDataManager {
         
         
         
-        saveContext()
+        saveContext(successBlock: { (successMessage) in
+            successBlock()
+        }) { (errorMessage) in
+            failedBlock(errorMessage)
+        }
     }
     
     func getAllTransaction(successWithUserProfile:(_ userProfile: [Transaction]) -> Void, failedWithError: (_ errorMessage: String?) -> Void) {
@@ -101,8 +104,12 @@ class CoreDataManager {
             user.setValue(phoneNumber, forKey: "phoneNumber")
             user.setValue(password, forKey: "password")
             
-            saveContext()
-            successWithMessage(kSUCCESSFULLY_DATA_SAVED)
+            saveContext(successBlock: { (successMessage) in
+               successWithMessage(kSUCCESSFULLY_DATA_SAVED)
+            }) { (errorMessage) in
+                failedWithError(errorMessage)
+            }
+            
         }) {
             print("Duplicate Record")
             failedWithError(kDUPLICATE_PHONENUMBER)
@@ -165,16 +172,19 @@ class CoreDataManager {
     
     // MARK: - Core Data Saving support
     
-    func saveContext () {
+    func saveContext (successBlock:(String) -> Void, failedBlock: (_ errorMessage: String) -> Void) {
         let context = persistentContainer.viewContext
         if context.hasChanges {
             do {
                 try context.save()
+                successBlock("Record added successful")
             } catch {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                 let nserror = error as NSError
+                 failedBlock(nserror.localizedDescription)
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+               
             }
         }
     }

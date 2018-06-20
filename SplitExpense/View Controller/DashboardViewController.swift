@@ -21,7 +21,22 @@ class DashboardViewController : UIViewController  {
             print(message ?? "ne message")
         }
         
+        navigationItem.rightBarButtonItem?.action = #selector(logoutAction)
     }
+    
+   @IBAction func logout(_ sender: Any) {
+        logoutAction()
+    }
+    
+    @objc func logoutAction()  {
+        Authentication().removeUserDetail()
+        
+        guard let appDel = UIApplication.shared.delegate as? AppDelegate else { return }
+        let rootController = UIStoryboard(name: KMAINSTORYBOARDNAME, bundle: Bundle.main).instantiateViewController(withIdentifier: kLOGIN_VIEW_CONTROLLER_IDENTIFIER)
+        appDel.window?.rootViewController = rootController
+        
+    }
+    
     
      @IBAction func addTransactionButtonAction(_ sender: Any) {
         
