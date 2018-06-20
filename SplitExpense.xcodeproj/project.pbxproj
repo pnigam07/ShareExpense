@@ -14,7 +14,6 @@
 		2C6395D220D8FB5C00E1D32E /* SignupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6395D120D8FB5C00E1D32E /* SignupViewModel.swift */; };
 		2C905F8220D8B46D00D9C387 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C905F8120D8B46D00D9C387 /* AppDelegate.swift */; };
 		2C905F8720D8B46D00D9C387 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C905F8520D8B46D00D9C387 /* Main.storyboard */; };
-		2C905F8A20D8B46D00D9C387 /* SplitExpense.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2C905F8820D8B46D00D9C387 /* SplitExpense.xcdatamodeld */; };
 		2C905F8C20D8B46F00D9C387 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C905F8B20D8B46F00D9C387 /* Assets.xcassets */; };
 		2C905F8F20D8B46F00D9C387 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C905F8D20D8B46F00D9C387 /* LaunchScreen.storyboard */; };
 		2C905F9A20D8B46F00D9C387 /* SplitExpenseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C905F9920D8B46F00D9C387 /* SplitExpenseTests.swift */; };
@@ -23,14 +22,15 @@
 		2C905FAE20D8CB5100D9C387 /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C905FAD20D8CB5100D9C387 /* Authentication.swift */; };
 		2C905FB020D8CB6C00D9C387 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C905FAF20D8CB6C00D9C387 /* Constant.swift */; };
 		2C905FB720D8CE4300D9C387 /* UtilClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C905FB620D8CE4300D9C387 /* UtilClass.swift */; };
+		2CCF829F20DA78340077F882 /* SplitExpense.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2CCF829D20DA78340077F882 /* SplitExpense.xcdatamodeld */; };
+		2CCF82A420DA849A0077F882 /* Transaction+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCF82A020DA84990077F882 /* Transaction+CoreDataClass.swift */; };
+		2CCF82A520DA849A0077F882 /* Transaction+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCF82A120DA84990077F882 /* Transaction+CoreDataProperties.swift */; };
+		2CCF82A620DA849A0077F882 /* Users+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCF82A220DA84990077F882 /* Users+CoreDataClass.swift */; };
+		2CCF82A720DA849A0077F882 /* Users+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCF82A320DA849A0077F882 /* Users+CoreDataProperties.swift */; };
 		2CD7E49120D92B240021314E /* AddTransactionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD7E49020D92B240021314E /* AddTransactionTableViewController.swift */; };
 		2CD7E49320D92B500021314E /* UsersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD7E49220D92B500021314E /* UsersTableViewController.swift */; };
 		2CD7E49520D935E80021314E /* AddTransactionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD7E49420D935E80021314E /* AddTransactionViewModel.swift */; };
 		2CD7E49820D938150021314E /* UserTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD7E49720D938150021314E /* UserTableViewModel.swift */; };
-		2CD7E4A520DA13BB0021314E /* Transaction+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD7E4A120DA13BB0021314E /* Transaction+CoreDataClass.swift */; };
-		2CD7E4A620DA13BB0021314E /* Transaction+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD7E4A220DA13BB0021314E /* Transaction+CoreDataProperties.swift */; };
-		2CD7E4A720DA13BB0021314E /* Users+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD7E4A320DA13BB0021314E /* Users+CoreDataClass.swift */; };
-		2CD7E4A820DA13BB0021314E /* Users+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD7E4A420DA13BB0021314E /* Users+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,7 +52,6 @@
 		2C905F7E20D8B46D00D9C387 /* SplitExpense.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SplitExpense.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C905F8120D8B46D00D9C387 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2C905F8620D8B46D00D9C387 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		2C905F8920D8B46D00D9C387 /* SplitExpense.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SplitExpense.xcdatamodel; sourceTree = "<group>"; };
 		2C905F8B20D8B46F00D9C387 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2C905F8E20D8B46F00D9C387 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2C905F9020D8B46F00D9C387 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -64,14 +63,15 @@
 		2C905FAD20D8CB5100D9C387 /* Authentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authentication.swift; sourceTree = "<group>"; };
 		2C905FAF20D8CB6C00D9C387 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		2C905FB620D8CE4300D9C387 /* UtilClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilClass.swift; sourceTree = "<group>"; };
+		2CCF829E20DA78340077F882 /* SplitExpense.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SplitExpense.xcdatamodel; sourceTree = "<group>"; };
+		2CCF82A020DA84990077F882 /* Transaction+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Transaction+CoreDataClass.swift"; sourceTree = "<group>"; };
+		2CCF82A120DA84990077F882 /* Transaction+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Transaction+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		2CCF82A220DA84990077F882 /* Users+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Users+CoreDataClass.swift"; sourceTree = "<group>"; };
+		2CCF82A320DA849A0077F882 /* Users+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Users+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		2CD7E49020D92B240021314E /* AddTransactionTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionTableViewController.swift; sourceTree = "<group>"; };
 		2CD7E49220D92B500021314E /* UsersTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersTableViewController.swift; sourceTree = "<group>"; };
 		2CD7E49420D935E80021314E /* AddTransactionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionViewModel.swift; sourceTree = "<group>"; };
 		2CD7E49720D938150021314E /* UserTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTableViewModel.swift; sourceTree = "<group>"; };
-		2CD7E4A120DA13BB0021314E /* Transaction+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Transaction+CoreDataClass.swift"; path = "SplitExpense/Core Data/Entity/Transaction+CoreDataClass.swift"; sourceTree = "<group>"; };
-		2CD7E4A220DA13BB0021314E /* Transaction+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Transaction+CoreDataProperties.swift"; path = "SplitExpense/Core Data/Entity/Transaction+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		2CD7E4A320DA13BB0021314E /* Users+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Users+CoreDataClass.swift"; path = "SplitExpense/Core Data/Entity/Users+CoreDataClass.swift"; sourceTree = "<group>"; };
-		2CD7E4A420DA13BB0021314E /* Users+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Users+CoreDataProperties.swift"; path = "SplitExpense/Core Data/Entity/Users+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,10 +107,10 @@
 		2C905F7520D8B46D00D9C387 = {
 			isa = PBXGroup;
 			children = (
-				2CD7E4A120DA13BB0021314E /* Transaction+CoreDataClass.swift */,
-				2CD7E4A220DA13BB0021314E /* Transaction+CoreDataProperties.swift */,
-				2CD7E4A320DA13BB0021314E /* Users+CoreDataClass.swift */,
-				2CD7E4A420DA13BB0021314E /* Users+CoreDataProperties.swift */,
+				2CCF82A020DA84990077F882 /* Transaction+CoreDataClass.swift */,
+				2CCF82A120DA84990077F882 /* Transaction+CoreDataProperties.swift */,
+				2CCF82A220DA84990077F882 /* Users+CoreDataClass.swift */,
+				2CCF82A320DA849A0077F882 /* Users+CoreDataProperties.swift */,
 				2C905F8020D8B46D00D9C387 /* SplitExpense */,
 				2C905FB520D8CE3100D9C387 /* Util */,
 				2C905F9820D8B46F00D9C387 /* SplitExpenseTests */,
@@ -166,7 +166,7 @@
 		2C905FAB20D8CA6B00D9C387 /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
-				2C905F8820D8B46D00D9C387 /* SplitExpense.xcdatamodeld */,
+				2CCF829D20DA78340077F882 /* SplitExpense.xcdatamodeld */,
 				2C905FAC20D8CA7800D9C387 /* Entity */,
 				2C905FA920D8CA6000D9C387 /* CoreDataManager.swift */,
 			);
@@ -292,22 +292,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C905FB020D8CB6C00D9C387 /* Constant.swift in Sources */,
-				2CD7E4A720DA13BB0021314E /* Users+CoreDataClass.swift in Sources */,
+				2CCF82A620DA849A0077F882 /* Users+CoreDataClass.swift in Sources */,
 				2CD7E49820D938150021314E /* UserTableViewModel.swift in Sources */,
 				2CD7E49320D92B500021314E /* UsersTableViewController.swift in Sources */,
 				2C6395D020D8FB1000E1D32E /* SignupViewController.swift in Sources */,
 				2C0D4C3020D90FF1006FBEDA /* DashBoardViewModel.swift in Sources */,
 				2C905FA820D8BDA200D9C387 /* LoginViewModel.swift in Sources */,
-				2CD7E4A520DA13BB0021314E /* Transaction+CoreDataClass.swift in Sources */,
+				2CCF82A420DA849A0077F882 /* Transaction+CoreDataClass.swift in Sources */,
 				2C905F8220D8B46D00D9C387 /* AppDelegate.swift in Sources */,
 				2CD7E49520D935E80021314E /* AddTransactionViewModel.swift in Sources */,
 				2C6395D220D8FB5C00E1D32E /* SignupViewModel.swift in Sources */,
 				2C0D4C2E20D90FA6006FBEDA /* DashboardViewController.swift in Sources */,
 				2C905FB720D8CE4300D9C387 /* UtilClass.swift in Sources */,
 				2C905FAA20D8CA6000D9C387 /* CoreDataManager.swift in Sources */,
-				2CD7E4A820DA13BB0021314E /* Users+CoreDataProperties.swift in Sources */,
-				2C905F8A20D8B46D00D9C387 /* SplitExpense.xcdatamodeld in Sources */,
-				2CD7E4A620DA13BB0021314E /* Transaction+CoreDataProperties.swift in Sources */,
+				2CCF82A720DA849A0077F882 /* Users+CoreDataProperties.swift in Sources */,
+				2CCF829F20DA78340077F882 /* SplitExpense.xcdatamodeld in Sources */,
+				2CCF82A520DA849A0077F882 /* Transaction+CoreDataProperties.swift in Sources */,
 				2CD7E49120D92B240021314E /* AddTransactionTableViewController.swift in Sources */,
 				2C6395CC20D8D12100E1D32E /* LoginViewController.swift in Sources */,
 				2C905FAE20D8CB5100D9C387 /* Authentication.swift in Sources */,
@@ -577,13 +577,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		2C905F8820D8B46D00D9C387 /* SplitExpense.xcdatamodeld */ = {
+		2CCF829D20DA78340077F882 /* SplitExpense.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				2C905F8920D8B46D00D9C387 /* SplitExpense.xcdatamodel */,
+				2CCF829E20DA78340077F882 /* SplitExpense.xcdatamodel */,
 			);
-			currentVersion = 2C905F8920D8B46D00D9C387 /* SplitExpense.xcdatamodel */;
-			path = SplitExpense.xcdatamodeld;
+			currentVersion = 2CCF829E20DA78340077F882 /* SplitExpense.xcdatamodel */;
+			name = SplitExpense.xcdatamodeld;
+			path = ../../SplitExpense.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

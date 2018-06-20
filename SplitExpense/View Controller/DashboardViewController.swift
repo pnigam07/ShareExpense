@@ -8,7 +8,22 @@
 
 import UIKit
 
+class TransactionTableViewCell: UITableViewCell {
+    @IBOutlet var debitorTitle : UILabel!
+    @IBOutlet var creditorTitle : UILabel!
+    @IBOutlet var amountTitle : UILabel!
+}
+
 class DashboardViewController : UIViewController  {
+    
+    @IBOutlet var viewModel : DashBoardViewModel? {
+        didSet {
+         //   viewModel?.allUserTransaction =  CoreDataManager.sharedInstanse.userObject?.creditor
+            print("dashborad object created")
+        }
+    }
+    
+    @IBOutlet var tableView : UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +37,12 @@ class DashboardViewController : UIViewController  {
         }
         
         navigationItem.rightBarButtonItem?.action = #selector(logoutAction)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        viewModel?.setAllTransaction()
+        tableView.reloadData()
+        
     }
     
    @IBAction func logout(_ sender: Any) {
@@ -46,7 +67,27 @@ class DashboardViewController : UIViewController  {
                 navigator.pushViewController(viewController, animated: true)
             }
         }
-        
-       
     }
+}
+
+extension DashboardViewController : UITabBarDelegate,UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if let _ = viewModel?.allUserTransaction?.count{
+            return (viewModel?.allUserTransaction?.count)!
+        }
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "transactionCell") as! TransactionTableViewCell
+        let transaction : Transaction? = viewModel?.allUserTransaction![indexPath.row]
+        
+        cell.debitorTitle.text = transaction?.isdebitor?.firstName
+        cell.creditorTitle.text = transaction?.isCreditor?.firstName
+        cell.amountTitle.text = String(format: "%f", (transaction?.amount)!)
+        
+        return cell
+    }
+    
+    
 }

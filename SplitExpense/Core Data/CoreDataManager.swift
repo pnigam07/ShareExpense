@@ -13,6 +13,48 @@ class CoreDataManager {
     
     static let sharedInstanse =  CoreDataManager()
     var allUsers: [Users]?
+    var userObject : Users?
+    var creditorObject : Users?
+    var debitorObject : Users?
+    
+    var anotherCopyOfUser : Users?
+    
+    
+    
+    func removeAllTransaction(successBlock:() -> Void, failedBlock: () -> Void) {
+        
+  //      let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: KTRANSACTION_ENTITY_NAME)
+        
+        let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: KTRANSACTION_ENTITY_NAME)
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
+        
+        do {
+            try persistentContainer.viewContext.execute(deleteRequest)
+            try persistentContainer.viewContext.save()
+            successBlock()
+        } catch {
+            failedBlock()
+            print ("There was an error")
+        }
+        
+//        do {
+//            let transactions = try persistentContainer.viewContext.fetch(fetchRequest) as? [Transaction]
+//            print(transactions ?? "no Transaction")
+//            if  (transactions?.count)! != 0 {
+//                for item in transactions{
+//
+//                }
+//                successWithUserProfile(transactions!)
+//            }
+//            else {
+//                failedWithError(kRECORD_NOT_PRESENT)
+//            }
+//        } catch let error as NSError {
+//            print("Could not fetch. \(error), \(error.userInfo)")
+//            failedWithError(kGENERIC_ERROR_MESSAGE)
+//        }
+    }
+    
     
     func addTransaction(debitor:Users, creditor: Users, amount: Double,successBlock: () -> Void, failedBlock: (String) -> Void ) {
         
@@ -21,15 +63,32 @@ class CoreDataManager {
         transaction.amount = amount
         transaction.creditor = creditor.firstName
         transaction.debitor = debitor.firstName
-        transaction.isDebitor = debitor
+        transaction.isdebitor = debitor
         transaction.isCreditor = creditor
-        
-        
         
         saveContext(successBlock: { (successMessage) in
             successBlock()
         }) { (errorMessage) in
             failedBlock(errorMessage)
+        }
+    }
+    
+    func getAllTransaction(forUser user: Users, successWithUserProfile:(_ userProfile: [Transaction]) -> Void, failedWithError: (_ errorMessage: String?) -> Void) {
+        
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: KTRANSACTION_ENTITY_NAME)
+        do {
+            let transactions = try persistentContainer.viewContext.fetch(fetchRequest) as? [Transaction]
+            print(transactions ?? "no Transaction")
+            if  (transactions?.count)! != 0 {
+                //   allUsers = user
+                successWithUserProfile(transactions!)
+            }
+            else {
+                failedWithError(kRECORD_NOT_PRESENT)
+            }
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+            failedWithError(kGENERIC_ERROR_MESSAGE)
         }
     }
     
@@ -80,6 +139,7 @@ class CoreDataManager {
             let user = try persistentContainer.viewContext.fetch(fetchRequest) as? [Users]
             print(user ?? "no users")
             if  (user?.count)! != 0 {
+                userObject = user?[0]
                 successWithUserProfile((user?[0])!)
             }
             else {

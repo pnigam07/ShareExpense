@@ -21,6 +21,6 @@ extension Transaction {
     @NSManaged public var creditor: String?
     @NSManaged public var debitor: String?
     @NSManaged public var isCreditor: Users?
-    @NSManaged public var isDebitor: Users?
+    @NSManaged public var isdebitor: Users?
 
 }

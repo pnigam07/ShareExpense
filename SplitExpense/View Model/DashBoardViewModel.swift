@@ -8,10 +8,29 @@
 
 import Foundation
 
-class DashBoardViewModel {
+class DashBoardViewModel : NSObject{
     
-    init() {
-        
+    var allUserTransaction : [Transaction]?
+    var totalAmount : Double?
+    
+    func setAllTransaction() {
+        CoreDataManager.sharedInstanse.getAllTransaction(successWithUserProfile: { (transactions) in
+            
+          allUserTransaction = transactions
+        }) { (message) in
+            print(message ?? "ne message")
+        }
     }
+    
+    override init() {
+        super.init()
+//        CoreDataManager.sharedInstanse.removeAllTransaction(successBlock: {
+//            print("Deleted")
+//        }) {
+//            print("failed to delete")
+//        }
+          setAllTransaction()
+    }
+    
 }
 

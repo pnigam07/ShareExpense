@@ -10,13 +10,33 @@ import UIKit
 
 class AddTransactionTableViewController: UITableViewController,UITextFieldDelegate {
     
-    var amount = 100.5
+    var amount : Double?
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         if !(textField.text?.isEmpty)! {
-            amount = Double(textField.text!)!
+            amount = Double(textField.text!)
+            print(amount ?? "No value")
         }
     }
+    
+//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+//        textField.resignFirstResponder()
+//        return false
+//    }
+    
+//    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+//        textField.resignFirstResponder()
+//        return true
+//    }
+//
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        print(textField.text ?? "hkljnl")
+        return true
+    }
+//
+
+    
+  
     
     var viewModel : AddTransactionViewModel?
     
@@ -24,14 +44,36 @@ class AddTransactionTableViewController: UITableViewController,UITextFieldDelega
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(addTransaction))
     }
     
+    func getAmountValue() -> UITextField {
+        
+        let indexpathForAmount = NSIndexPath(row: 2, section: 0)
+        let amountCell = self.tableView(tableView, cellForRowAt: indexpathForAmount as IndexPath)
+        let amounttextField = amountCell.viewWithTag(99) as! UITextField
+        amounttextField.resignFirstResponder()
+        amounttextField.endEditing(true)
+        
+   //     textFieldShouldEndEditing(amounttextField)
+        
+        print(amounttextField.text ?? "No value")
+        
+        return amounttextField
+      
+       
+    }
+    
     @objc func addTransaction() {
         print("working")
-        CoreDataManager.sharedInstanse.addTransaction(debitor: (viewModel?.debitor)!, creditor: (viewModel?.creditor)!, amount: amount, successBlock: {
+        
+        
+        if viewModel?.debitor != nil || viewModel?.creditor != nil || !(getAmountValue().text?.isEmpty)! {
+            CoreDataManager.sharedInstanse.addTransaction(debitor: (viewModel?.debitor)!, creditor: (viewModel?.creditor)!, amount: amount!, successBlock: {
             UtilClass.displayAlertView(titleText: kSUCCESS_TITLE, message: kSUCCESSFULLY_DATA_SAVED, viewController: self)
         }) { (errorMessage) in
              UtilClass.displayAlertView(titleText: kERROR_TITLE, message: errorMessage, viewController: self)
+            }
         }
-    }
+        }
+    
     
     override func viewDidAppear(_ animated: Bool) {
         self.tableView.reloadData()

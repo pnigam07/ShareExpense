@@ -42,7 +42,7 @@ extension SignupViewController : SignupViewModelDelegate {
         DispatchQueue.main.async(execute: {() -> Void in
             let okAction = UIAlertAction(title: kOK, style: UIAlertActionStyle.default) {
                 UIAlertAction in
-                self.dismiss(animated: true, completion: nil)
+     //           self.dismiss(animated: true, completion: nil)
             }
             
             UtilClass.displayAlertViewWithCustomAction(titleText: kSUCCESS_TITLE, message: kSUCCESSFULLY_DATA_SAVED, viewController: self,action: okAction)
