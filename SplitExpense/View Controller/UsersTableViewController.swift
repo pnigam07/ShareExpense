@@ -16,7 +16,10 @@ class UsersTableViewController: UITableViewController, UserTableViewModelDelegat
         }
     }
     
+    
     var userList : [Users]?
+    
+    
     
     func updateTableView() {
         self.tableView.reloadData()
@@ -42,14 +45,14 @@ class UsersTableViewController: UITableViewController, UserTableViewModelDelegat
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Move to user Table if fiest and second row is clicked
-        if indexPath.row == 0 || indexPath.row == 1 {
-            // go to User list table view
+        if viewModel?.addTransactionVCReferanceObject?.viewModel?.selectedRow == 0 {
+            viewModel?.addTransactionVCReferanceObject?.viewModel?.debitor = viewModel?.allUsers![indexPath.row]
             
         }
-        else {
-            // Amount view controller
-            
+        else if viewModel?.addTransactionVCReferanceObject?.viewModel?.selectedRow == 1{
+             viewModel?.addTransactionVCReferanceObject?.viewModel?.creditor = viewModel?.allUsers![indexPath.row]
         }
+        navigationController?.popViewController(animated: true)
     }
     
 }

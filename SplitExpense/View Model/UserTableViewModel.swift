@@ -15,6 +15,7 @@ protocol UserTableViewModelDelegate {
 class UserTableViewModel {
     
     var allUsers : [Users]?
+    var addTransactionVCReferanceObject : AddTransactionTableViewController?
     
     
     var delegate : UserTableViewModelDelegate?
