@@ -23,6 +23,8 @@ class DashboardViewController : UIViewController  {
         }
     }
     
+    
+    
     @IBOutlet var tableView : UITableView!
     
     override func viewDidLoad() {
@@ -55,9 +57,7 @@ class DashboardViewController : UIViewController  {
         guard let appDel = UIApplication.shared.delegate as? AppDelegate else { return }
         let rootController = UIStoryboard(name: KMAINSTORYBOARDNAME, bundle: Bundle.main).instantiateViewController(withIdentifier: kLOGIN_VIEW_CONTROLLER_IDENTIFIER)
         appDel.window?.rootViewController = rootController
-        
     }
-    
     
      @IBAction func addTransactionButtonAction(_ sender: Any) {
         
@@ -71,16 +71,38 @@ class DashboardViewController : UIViewController  {
 }
 
 extension DashboardViewController : UITabBarDelegate,UITableViewDataSource {
+    
+//    var totalKeys : [String]? {
+//        return viewModel?.allUserTransaction?.keys as? [String] ?? []
+//    }
+   
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let _ = viewModel?.allUserTransaction?.count{
-            return (viewModel?.allUserTransaction?.count)!
+        let userName = viewModel?.totalUsers![section]
+        let transactionList : [Transaction] = (viewModel?.allUserTransaction![userName!])!
+        if transactionList.count > 0 {
+            return transactionList.count
         }
         return 0
     }
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        if let totalKeys = viewModel?.allUserTransaction?.keys.count{
+            return totalKeys
+        }
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+         return viewModel?.totalUsers![section]
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "transactionCell") as! TransactionTableViewCell
-        let transaction : Transaction? = viewModel?.allUserTransaction![indexPath.row]
+        let userName = viewModel?.totalUsers![indexPath.section]
+        let transactionList : [Transaction] = (viewModel?.allUserTransaction![userName!])!
+        
+        let transaction : Transaction? = transactionList[indexPath.row]
         
         cell.debitorTitle.text = transaction?.isdebitor?.firstName
         cell.creditorTitle.text = transaction?.isCreditor?.firstName

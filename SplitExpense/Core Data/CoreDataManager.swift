@@ -36,23 +36,6 @@ class CoreDataManager {
             failedBlock()
             print ("There was an error")
         }
-        
-//        do {
-//            let transactions = try persistentContainer.viewContext.fetch(fetchRequest) as? [Transaction]
-//            print(transactions ?? "no Transaction")
-//            if  (transactions?.count)! != 0 {
-//                for item in transactions{
-//
-//                }
-//                successWithUserProfile(transactions!)
-//            }
-//            else {
-//                failedWithError(kRECORD_NOT_PRESENT)
-//            }
-//        } catch let error as NSError {
-//            print("Could not fetch. \(error), \(error.userInfo)")
-//            failedWithError(kGENERIC_ERROR_MESSAGE)
-//        }
     }
     
     
@@ -73,42 +56,53 @@ class CoreDataManager {
         }
     }
     
-    func getAllTransaction(forUser user: Users, successWithUserProfile:(_ userProfile: [Transaction]) -> Void, failedWithError: (_ errorMessage: String?) -> Void) {
-        
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: KTRANSACTION_ENTITY_NAME)
-        do {
-            let transactions = try persistentContainer.viewContext.fetch(fetchRequest) as? [Transaction]
-            print(transactions ?? "no Transaction")
-            if  (transactions?.count)! != 0 {
-                //   allUsers = user
-                successWithUserProfile(transactions!)
-            }
-            else {
-                failedWithError(kRECORD_NOT_PRESENT)
-            }
-        } catch let error as NSError {
-            print("Could not fetch. \(error), \(error.userInfo)")
-            failedWithError(kGENERIC_ERROR_MESSAGE)
-        }
-    }
+    // FIND ALL DE
+   
     
     func getAllTransaction(successWithUserProfile:(_ userProfile: [Transaction]) -> Void, failedWithError: (_ errorMessage: String?) -> Void) {
         
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: KTRANSACTION_ENTITY_NAME)
-        do {
-            let transactions = try persistentContainer.viewContext.fetch(fetchRequest) as? [Transaction]
-            print(transactions ?? "no Transaction")
-            if  (transactions?.count)! != 0 {
-             //   allUsers = user
-                successWithUserProfile(transactions!)
+        getUserDetailWith(phoneNumber: Authentication().currentUser!, password: "123456789", successWithUserProfile: { (userObject) in
+            self.userObject = userObject
+            
+            var transactionListGroupByUser : [String:[Transaction]]?
+            
+          
+            
+                
+            
+            
+            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: KTRANSACTION_ENTITY_NAME)
+            let predicate = NSPredicate(format: "isCreditor.phoneNumber = %@ OR isdebitor.phoneNumber = %@", argumentArray: [(userObject.phoneNumber)!,(userObject.phoneNumber)!])
+            fetchRequest.predicate = predicate
+            
+//            fetchRequest.propertiesToGroupBy = ["creditor","debitor","amount","isCreditor.phoneNumber","isdebitor.phoneNumber"]
+//            fetchRequest.propertiesToFetch = ["debitor","creditor","amount","isCreditor.phoneNumber","isdebitor.phoneNumber"]
+//
+        //    fetchRequest.resultType = .dictionaryResultType
+            
+            // fetchRequest.predicate = NSPredicate(format: "isCreditor.phoneNumber = %@ AND isdebitor.phoneNumber = %@", (userObject.phoneNumber)!,(userObject.phoneNumber)!)
+            do {
+                
+                let transactions = try persistentContainer.viewContext.fetch(fetchRequest)
+        
+                if  (transactions.count) != 0 {
+                 
+                    successWithUserProfile(transactions as! [Transaction])
+                }
+                else {
+                    failedWithError(kRECORD_NOT_PRESENT)
+                }
+            } catch let error as NSError {
+                print("Could not fetch. \(error), \(error.userInfo)")
+                failedWithError(kGENERIC_ERROR_MESSAGE)
             }
-            else {
-                failedWithError(kRECORD_NOT_PRESENT)
-            }
-        } catch let error as NSError {
-            print("Could not fetch. \(error), \(error.userInfo)")
-            failedWithError(kGENERIC_ERROR_MESSAGE)
+            
+            
+        }) { (message) in
+            print("error in fetching")
         }
+        
+        
     }
     
     func getAllUser(successWithUserProfile:(_ userProfile: [Users]) -> Void, failedWithError: (_ errorMessage: String?) -> Void) {
