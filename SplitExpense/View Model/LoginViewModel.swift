@@ -30,7 +30,7 @@ class LoginViewModel : NSObject {
     
     func login(withPhoneNumber phoneNumber: String, andPassword password: String) {
         // check in core data model if user exist make successful login
-        CoreDataManager.sharedInstanse.getUserDetailWith(phoneNumber: phoneNumber, password: password, successWithUserProfile: { (userProfile) in
+        CoreDataManager.sharedInstanse.authenticateUser(phoneNumber: phoneNumber, password: password, successWithUserProfile: { (userProfile) in
             self.userProfile = userProfile
             Authentication.addUserDetailToUserDefault(userProfile.phoneNumber!)
             delegate?.onLogin()

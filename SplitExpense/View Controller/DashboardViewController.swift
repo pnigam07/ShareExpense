@@ -14,7 +14,7 @@ class TransactionTableViewCell: UITableViewCell {
     @IBOutlet var amountTitle : UILabel!
 }
 
-class DashboardViewController : UIViewController  {
+class DashboardViewController : UIViewController, DashBoardDelegate  {
     
     @IBOutlet var viewModel : DashBoardViewModel? {
         didSet {
@@ -23,29 +23,32 @@ class DashboardViewController : UIViewController  {
         }
     }
     
-    
-    
     @IBOutlet var tableView : UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        CoreDataManager.sharedInstanse.getAllTransaction(successWithUserProfile: { (transaction) in
-            for item in transaction {
-                print(item.debitor ?? "no debitor")
-                print(item.amount)
-            }
-        }) { (message) in
-            print(message ?? "ne message")
-        }
+//        CoreDataManager.sharedInstanse.getAllTransactionForCurrentUser(successWithUserProfile: { (transaction) in
+//            for item in transaction {
+//                print(item.debitor ?? "no debitor")
+//                print(item.amount)
+//            }
+//        }) { (message) in
+//            print(message ?? "ne message")
+//        }
         
         navigationItem.rightBarButtonItem?.action = #selector(logoutAction)
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        viewModel?.setAllTransaction()
+        viewModel?.manageTransactionGroupwise()
         tableView.reloadData()
         
     }
+    
+    func updateUI() {
+        tableView.reloadData()
+    }
+    
     
    @IBAction func logout(_ sender: Any) {
         logoutAction()
@@ -71,12 +74,7 @@ class DashboardViewController : UIViewController  {
 }
 
 extension DashboardViewController : UITabBarDelegate,UITableViewDataSource {
-    
-//    var totalKeys : [String]? {
-//        return viewModel?.allUserTransaction?.keys as? [String] ?? []
-//    }
-   
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let userName = viewModel?.totalUsers![section]
         let transactionList : [Transaction] = (viewModel?.allUserTransaction![userName!])!
@@ -94,7 +92,13 @@ extension DashboardViewController : UITabBarDelegate,UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-         return viewModel?.totalUsers![section]
+        
+         let userName = viewModel?.totalUsers![section]
+        let transaction = viewModel?.allUserTransaction![userName!]
+       
+        
+        let sectionTitle = viewModel?.getTitleForSection(forUserId: userName!, withTransaction: transaction!)
+         return sectionTitle // viewModel?.totalUsers![section]
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

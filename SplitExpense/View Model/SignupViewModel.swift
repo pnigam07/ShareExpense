@@ -40,9 +40,9 @@ class SignupViewModel: NSObject {
         
         if errorMessage == nil{
             CoreDataManager.sharedInstanse.saveUserData(firstName!, lastName!, email!, phoneNumber!, password!, successWithMessage: { (message) in
-                delegate?.signUpWithSuccess()
+                self.delegate?.signUpWithSuccess()
             }) { (message) in
-                delegate?.showErroMesssage(message: message!)
+                self.delegate?.showErroMesssage(message: message!)
             }
         }
         else {

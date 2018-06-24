@@ -22,7 +22,7 @@ let kRECORD_NOT_PRESENT = "Please check Mobile Number / Password"
 let kGENERIC_ERROR_MESSAGE = "Something went wrong"
 
 // MARK : Sign Up Error message
-let kSUCCESS_TITLE = "Error"
+let kSUCCESS_TITLE = "Sucess"
 let kSUCCESSFULLY_DATA_SAVED = "Record saved successfully"
 
 let kDUPLICATE_PHONENUMBER = "Please use Different Phone Number"

@@ -55,38 +55,15 @@ class CoreDataManager {
             failedBlock(errorMessage)
         }
     }
-    
-    // FIND ALL DE
-   
-    
-    func getAllTransaction(successWithUserProfile:(_ userProfile: [Transaction]) -> Void, failedWithError: (_ errorMessage: String?) -> Void) {
-        
-        getUserDetailWith(phoneNumber: Authentication().currentUser!, password: "123456789", successWithUserProfile: { (userObject) in
-            self.userObject = userObject
-            
-            var transactionListGroupByUser : [String:[Transaction]]?
-            
-          
-            
-                
-            
+    /*
+      Get All Transaction
+     */
+    func getAllTransaction(successWithUserProfile:(_ allTransaction: [Transaction]) -> Void, failedWithError: (_ errorMessage: String?) -> Void) {
             
             let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: KTRANSACTION_ENTITY_NAME)
-            let predicate = NSPredicate(format: "isCreditor.phoneNumber = %@ OR isdebitor.phoneNumber = %@", argumentArray: [(userObject.phoneNumber)!,(userObject.phoneNumber)!])
-            fetchRequest.predicate = predicate
-            
-//            fetchRequest.propertiesToGroupBy = ["creditor","debitor","amount","isCreditor.phoneNumber","isdebitor.phoneNumber"]
-//            fetchRequest.propertiesToFetch = ["debitor","creditor","amount","isCreditor.phoneNumber","isdebitor.phoneNumber"]
-//
-        //    fetchRequest.resultType = .dictionaryResultType
-            
-            // fetchRequest.predicate = NSPredicate(format: "isCreditor.phoneNumber = %@ AND isdebitor.phoneNumber = %@", (userObject.phoneNumber)!,(userObject.phoneNumber)!)
             do {
-                
                 let transactions = try persistentContainer.viewContext.fetch(fetchRequest)
-        
                 if  (transactions.count) != 0 {
-                 
                     successWithUserProfile(transactions as! [Transaction])
                 }
                 else {
@@ -96,13 +73,38 @@ class CoreDataManager {
                 print("Could not fetch. \(error), \(error.userInfo)")
                 failedWithError(kGENERIC_ERROR_MESSAGE)
             }
+    }
+   
+    /*
+     Get All Transaction for logged in user
+     */
+    
+    func getAllTransactionForCurrentUser(successWithUserProfile:(_ userProfile: [Transaction]) -> Void, failedWithError: (_ errorMessage: String?) -> Void) {
+        
+            getUserDetailWith(phoneNumber: Authentication().currentUser!, successWithUserProfile: { (userObject) in
+        
+                let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: KTRANSACTION_ENTITY_NAME)
+                let predicate = NSPredicate(format: "isCreditor.phoneNumber = %@ OR isdebitor.phoneNumber = %@", argumentArray: [(userObject.phoneNumber)!,(userObject.phoneNumber)!])
+                fetchRequest.predicate = predicate
+      
+                do {
+                    
+                    let transactions = try persistentContainer.viewContext.fetch(fetchRequest)
             
-            
-        }) { (message) in
+                    if  (transactions.count) != 0 {
+                     
+                        successWithUserProfile(transactions as! [Transaction])
+                    }
+                    else {
+                        failedWithError(kRECORD_NOT_PRESENT)
+                    }
+                } catch let error as NSError {
+                    print("Could not fetch. \(error), \(error.userInfo)")
+                    failedWithError(kGENERIC_ERROR_MESSAGE)
+                }
+            }) { (message) in
             print("error in fetching")
-        }
-        
-        
+            }
     }
     
     func getAllUser(successWithUserProfile:(_ userProfile: [Users]) -> Void, failedWithError: (_ errorMessage: String?) -> Void) {
@@ -124,7 +126,29 @@ class CoreDataManager {
         }
     }
     
-    func getUserDetailWith(phoneNumber: String, password: String, successWithUserProfile:(_ userProfile: Users) -> Void, failedWithError: (_ errorMessage: String?) -> Void) {
+    func getUserDetailWith(phoneNumber: String, successWithUserProfile:(_ userProfile: Users) -> Void, failedWithError: (_ errorMessage: String?) -> Void) {
+        
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: KUSER_ENTITY_NAME)
+        fetchRequest.predicate = NSPredicate(format: "phoneNumber = %@",phoneNumber)
+        
+        do {
+            let user = try persistentContainer.viewContext.fetch(fetchRequest) as? [Users]
+            print(user ?? "no users")
+            if  (user?.count)! != 0 {
+                userObject = user?[0]
+                successWithUserProfile((user?[0])!)
+            }
+            else {
+                failedWithError(kRECORD_NOT_PRESENT)
+            }
+            
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+            failedWithError(kGENERIC_ERROR_MESSAGE)
+        }
+    }
+    
+    func authenticateUser(phoneNumber: String, password: String, successWithUserProfile:(_ userProfile: Users) -> Void, failedWithError: (_ errorMessage: String?) -> Void) {
         
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: KUSER_ENTITY_NAME)
         fetchRequest.predicate = NSPredicate(format: "phoneNumber = %@ AND password = %@",phoneNumber,password)
@@ -146,31 +170,39 @@ class CoreDataManager {
         }
     }
     
-    func saveUserData(_ firstName:String, _ lastName:String,_ email: String, _ phoneNumber: String, _ password:String, successWithMessage:(_ message: String) -> Void, failedWithError: (_ errorMessage: String?) -> Void)  {
+    func saveUserData(_ firstName:String, _ lastName:String,_ email: String, _ phoneNumber: String, _ password:String, successWithMessage:@escaping (_ message: String) -> Void, failedWithError: @escaping (_ errorMessage: String?) -> Void)  {
         
-        isDuplicatePhoneNumber(phoneNumber, successBlock: {
-            let entityDescriptor = NSEntityDescription.entity(forEntityName: KUSER_ENTITY_NAME, in: persistentContainer.viewContext)
-            let user = NSManagedObject(entity: entityDescriptor!, insertInto: persistentContainer.viewContext)
+        isDuplicatePhoneNumber(phoneNumber, isDuplicate: { (result) in
             
-            user.setValue(firstName, forKey: "firstName")
-            user.setValue(lastName, forKey: "lastName")
-            user.setValue(email, forKey: "emailAddresss")
-            user.setValue(phoneNumber, forKey: "phoneNumber")
-            user.setValue(password, forKey: "password")
-            
-            saveContext(successBlock: { (successMessage) in
-               successWithMessage(kSUCCESSFULLY_DATA_SAVED)
-            }) { (errorMessage) in
-                failedWithError(errorMessage)
+            if result {
+                print("Duplicate Phone Number")
+                failedWithError(kDUPLICATE_PHONENUMBER)
             }
-            
-        }) {
-            print("Duplicate Record")
-            failedWithError(kDUPLICATE_PHONENUMBER)
+            else {
+                let entityDescriptor = NSEntityDescription.entity(forEntityName: KUSER_ENTITY_NAME, in: persistentContainer.viewContext)
+                
+                let user = NSManagedObject(entity: entityDescriptor!, insertInto: persistentContainer.viewContext)
+                
+                user.setValue(firstName, forKey: "firstName")
+                user.setValue(lastName, forKey: "lastName")
+                user.setValue(email, forKey: "emailAddresss")
+                user.setValue(phoneNumber, forKey: "phoneNumber")
+                user.setValue(password, forKey: "password")
+                //            user.setValue("\(firstName+phoneNumber)", forKey: "userToken")
+                
+                saveContext(successBlock: { (successMessage) in
+                    successWithMessage(kSUCCESSFULLY_DATA_SAVED)
+                }) { (errorMessage) in
+                    failedWithError(errorMessage)
+                }
+            }
+        }) { (error) in
+            failedWithError(error.localizedDescription)
         }
     }
     
-    func isDuplicatePhoneNumber(_ phoneNumber : String, successBlock: () -> Void, failiourBlock: () -> Void ) {
+    func isDuplicatePhoneNumber(_ phoneNumber : String, isDuplicate: (Bool) -> Void, failiourBlock: (NSError) -> Void ) {
+      
         let user : [Users]?
         
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: KUSER_ENTITY_NAME)
@@ -179,23 +211,20 @@ class CoreDataManager {
         do {
             user = try persistentContainer.viewContext.fetch(fetchRequest) as? [Users]
             print(user ?? "no users")
-            if  (user?.count)! == 0 {
-                successBlock()
+            if (user?.count)! == 0 {
+                isDuplicate(false)
             }
             else {
-                failiourBlock()
+                isDuplicate(true)
             }
             
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
-            failiourBlock()
+            failiourBlock(error)
         }
     }
-    
-    
+
     // MARK: - Core Data stack
-    
-    
     
     lazy var persistentContainer: NSPersistentContainer = {
         /*
