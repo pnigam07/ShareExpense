@@ -9,18 +9,31 @@
 import Foundation
 
 let CURRENT_USER = "currentUser"
-
+let kOK = "Ok"
 let kDATABASE_NAME = "SplitExpense"
 
 let KMAINSTORYBOARDNAME = "Main"
 let kLOGIN_VIEW_CONTROLLER_IDENTIFIER = "LoginViewController"
-let kDASHBOARD_VIEW_CONTROLLER_IDENTIFIER = "DashboardViewController"
+let kDASHBOARD_VIEW_CONTROLLER_IDENTIFIER = "abc"
 
 // MARK : Error message
-let kErrorTitle = "Error"
+let kERROR_TITLE = "Error"
 let kRECORD_NOT_PRESENT = "Please check Mobile Number / Password"
 let kGENERIC_ERROR_MESSAGE = "Something went wrong"
+
+// MARK : Sign Up Error message
+let kSUCCESS_TITLE = "Sucess"
+let kSUCCESSFULLY_DATA_SAVED = "Record saved successfully"
+
+let kDUPLICATE_PHONENUMBER = "Please use Different Phone Number"
+let kDUPLICATE_USER_HANDLE = "User handle is already taken"
+
+let kEMPLY_FIELD = "Please provide all required information"
+let kINVALID_PHONE_NUMBER = "Invalid Phone number"
+let kINVALID_EMAIL = "Invalid Email"
+let kINVALID_PASSWORD = "Invalid Password"
 
 // MARK : Tables name
 
 let KUSER_ENTITY_NAME = "Users"
+let KTRANSACTION_ENTITY_NAME = "Transaction"
