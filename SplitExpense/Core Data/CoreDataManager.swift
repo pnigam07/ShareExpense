@@ -14,17 +14,8 @@ class CoreDataManager {
     static let sharedInstanse =  CoreDataManager()
     var allUsers: [Users]?
     var userObject : Users?
-    var creditorObject : Users?
-    var debitorObject : Users?
-    
-    var anotherCopyOfUser : Users?
-    
-    
-    
+
     func removeAllTransaction(successBlock:() -> Void, failedBlock: () -> Void) {
-        
-  //      let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: KTRANSACTION_ENTITY_NAME)
-        
         let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: KTRANSACTION_ENTITY_NAME)
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
         
@@ -41,18 +32,26 @@ class CoreDataManager {
     
     func addTransaction(debitor:Users, creditor: Users, amount: Double,successBlock: () -> Void, failedBlock: (String) -> Void ) {
         
-        let entityDescriptorForTransaction = NSEntityDescription.entity(forEntityName: KTRANSACTION_ENTITY_NAME, in: persistentContainer.viewContext)
-        let transaction = NSManagedObject(entity: entityDescriptorForTransaction!, insertInto: persistentContainer.viewContext) as! Transaction
-        transaction.amount = amount
-        transaction.creditor = creditor.firstName
-        transaction.debitor = debitor.firstName
-        transaction.isdebitor = debitor
-        transaction.isCreditor = creditor
-        
-        saveContext(successBlock: { (successMessage) in
-            successBlock()
-        }) { (errorMessage) in
-            failedBlock(errorMessage)
+        if amount <= 0 {
+            failedBlock("Please enter valid amounr")
+        }
+        else if debitor.phoneNumber == creditor.phoneNumber {
+            failedBlock ("Debitor and creditor can't be same")
+        }
+        else {
+            let entityDescriptorForTransaction = NSEntityDescription.entity(forEntityName: KTRANSACTION_ENTITY_NAME, in: persistentContainer.viewContext)
+            let transaction = NSManagedObject(entity: entityDescriptorForTransaction!, insertInto: persistentContainer.viewContext) as! Transaction
+            transaction.amount = amount
+            transaction.creditor = creditor.firstName
+            transaction.debitor = debitor.firstName
+            transaction.isdebitor = debitor
+            transaction.isCreditor = creditor
+            
+            saveContext(successBlock: { (successMessage) in
+                successBlock()
+            }) { (errorMessage) in
+                failedBlock(errorMessage)
+            }
         }
     }
     /*

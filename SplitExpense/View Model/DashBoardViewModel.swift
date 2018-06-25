@@ -18,6 +18,7 @@ class DashBoardViewModel : NSObject{
     var totalAmount : Double?
     var totalUsers : [String]?
     var delegate : DashBoardDelegate?
+    var userTotalAmount = 0.0
     
 //    func simplefiedTransaction()  {
 //        CoreDataManager.sharedInstanse.getAllTransaction(successWithUserProfile: { (transactions) in
@@ -76,14 +77,22 @@ class DashBoardViewModel : NSObject{
     
     
     func manageTransactionGroupwise() {
+        
         CoreDataManager.sharedInstanse.getAllTransactionForCurrentUser(successWithUserProfile: { (transactions) in
-            
+                userTotalAmount = 0.0
             var transactionGroupByUserName =  [(String):[Transaction]]() // as NSDictionary
             let currectUserID = CoreDataManager.sharedInstanse.userObject?.firstName
             for item in transactions{
               let allKeys = Array(transactionGroupByUserName.keys)
                 
                 let userName : String? = item.isdebitor?.firstName == currectUserID ? item.isCreditor?.firstName : item.isdebitor?.firstName
+                
+                if userName == currectUserID {
+                    userTotalAmount += item.amount
+                }
+                else {
+                    userTotalAmount -= item.amount
+                }
                 
                 if allKeys.contains(userName!) {
                     var oldTransactionList : [Transaction] = transactionGroupByUserName[userName!]!
@@ -136,38 +145,6 @@ class DashBoardViewModel : NSObject{
             return "No  buddy Owe Anything"
         }
     }
-    
-//    func getTitleForSection(transactions : [Transaction], firstUserId: String, secondUserId: String) -> String{
-//
-//        var totalDebt : Double?
-//
-//        var firstUserTotal = 0.0
-//        var secondUserTotal = 0.0
-//
-//        for item in transactions {
-//            if item.isdebitor?.firstName == firstUserId && item.isCreditor?.firstName == secondUserId {
-//                firstUserTotal = firstUserTotal + item.amount
-//            }
-//            else  if item.isdebitor?.firstName == secondUserId && item.isCreditor?.firstName == firstUserId {
-//                secondUserTotal = secondUserTotal + item.amount
-//            }
-//        }
-//
-//        totalDebt = firstUserTotal - secondUserTotal
-//
-//        if  totalDebt! > 0 {
-//            return "\(firstUserId) Owe \(secondUserId) \(totalDebt)  )"
-//        }
-//        if totalDebt! < 0 {
-//            return "\(secondUserId) Owe \(firstUserId) \(totalDebt)  )"
-//        }
-//        else {
-//            return "No  buddy ows Anything"
-//        }
-//
-//      //  return ""
-//
-//    }
     
     func setAllTransaction() {
         CoreDataManager.sharedInstanse.getAllTransactionForCurrentUser(successWithUserProfile: { (transactions) in

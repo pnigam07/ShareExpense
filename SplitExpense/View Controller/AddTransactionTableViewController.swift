@@ -10,64 +10,36 @@ import UIKit
 
 class AddTransactionTableViewController: UITableViewController,UITextFieldDelegate {
     
-    var amount : Double?
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        if !(textField.text?.isEmpty)! {
-            amount = Double(textField.text!)
-            print(amount ?? "No value")
-        }
-    }
-    
-//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        textField.resignFirstResponder()
-//        return false
-//    }
-    
-//    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-//        textField.resignFirstResponder()
-//        return true
-//    }
-//
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        print(textField.text ?? "hkljnl")
-        return true
-    }
-//
+    var amountTextFiled : UITextField?
 
-    
-  
-    
     var viewModel : AddTransactionViewModel?
     
     override func viewDidLoad() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(addTransaction))
     }
     
-    func getAmountValue() -> UITextField {
-        
-        let indexpathForAmount = NSIndexPath(row: 2, section: 0)
-        let amountCell = self.tableView(tableView, cellForRowAt: indexpathForAmount as IndexPath)
-        let amounttextField = amountCell.viewWithTag(99) as! UITextField
-        amounttextField.resignFirstResponder()
-        amounttextField.endEditing(true)
-        
-   //     textFieldShouldEndEditing(amounttextField)
-        
-        print(amounttextField.text ?? "No value")
-        
-        return amounttextField
-      
-       
-    }
-    
     @objc func addTransaction() {
-        print("working")
+
+        let amountFromTF : Double?
+        if let amountTF = amountTextFiled?.text {
+             amountFromTF = Double(amountTF)
+        }
+        else {
+            amountFromTF = nil
+           amountTextFiled?.text =  ""
+        }
         
-        
-        if viewModel?.debitor != nil || viewModel?.creditor != nil || !(getAmountValue().text?.isEmpty)! {
-            CoreDataManager.sharedInstanse.addTransaction(debitor: (viewModel?.debitor)!, creditor: (viewModel?.creditor)!, amount: amount!, successBlock: {
-            UtilClass.displayAlertView(titleText: kSUCCESS_TITLE, message: kSUCCESSFULLY_DATA_SAVED, viewController: self)
+        if viewModel?.debitor != nil || viewModel?.creditor != nil || amountFromTF != nil {
+            
+            CoreDataManager.sharedInstanse.addTransaction(debitor: (viewModel?.debitor)!, creditor: (viewModel?.creditor)!, amount: amountFromTF!, successBlock: {
+                
+                let okAction = UIAlertAction(title: kOK, style: UIAlertActionStyle.default) {
+                    UIAlertAction in
+                    self.navigationController?.popViewController(animated: true)
+                }
+                
+                UtilClass.displayAlertViewWithCustomAction(titleText: kSUCCESS_TITLE, message: kSUCCESSFULLY_DATA_SAVED, viewController: self, action:okAction )
+           
         }) { (errorMessage) in
              UtilClass.displayAlertView(titleText: kERROR_TITLE, message: errorMessage, viewController: self)
             }
@@ -76,7 +48,7 @@ class AddTransactionTableViewController: UITableViewController,UITextFieldDelega
     
     
     override func viewDidAppear(_ animated: Bool) {
-        self.tableView.reloadData()
+        tableView.reloadData()
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -105,6 +77,10 @@ class AddTransactionTableViewController: UITableViewController,UITextFieldDelega
         }
         else if indexPath.row == 2 {
             cell = tableView.dequeueReusableCell(withIdentifier: "cellWithTextField")
+            let textField = cell?.viewWithTag(99) as! UITextField
+            
+            amountTextFiled = textField
+           
         }
         return cell!
     }
@@ -123,5 +99,6 @@ class AddTransactionTableViewController: UITableViewController,UITextFieldDelega
                 }
             }
         }
+       
     }
 }
