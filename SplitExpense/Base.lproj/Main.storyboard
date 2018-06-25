@@ -648,10 +648,6 @@
                                                             </tableViewCellContentView>
                                                         </tableViewCell>
                                                     </prototypes>
-                                                    <connections>
-                                                        <outlet property="dataSource" destination="prF-4K-YQ8" id="HrR-yf-dDF"/>
-                                                        <outlet property="delegate" destination="prF-4K-YQ8" id="fCv-XM-TUp"/>
-                                                    </connections>
                                                 </tableView>
                                             </subviews>
                                             <constraints>
@@ -666,10 +662,6 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="prF-4K-YQ8" id="mEv-f7-t8i"/>
-                                    <outlet property="delegate" destination="prF-4K-YQ8" id="TTW-3q-cbQ"/>
-                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -681,9 +673,6 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="rWu-Vi-OIs"/>
                     </view>
-                    <connections>
-                        <outlet property="simplyfiedTableView" destination="oyB-AA-HhA" id="Jnr-gb-sXg"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TZ7-B2-IeQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
