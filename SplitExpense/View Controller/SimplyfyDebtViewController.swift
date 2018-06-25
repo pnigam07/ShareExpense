@@ -240,7 +240,7 @@ class SimplyfyDebtViewController: UIViewController, UITableViewDelegate,UITableV
                     var  dummyDict = [String:[Transaction]]()
                     
                     let filterArray = transactions.filter({ (transaction) -> Bool in
-                        return transaction.isdebitor?.firstName == debitorName && transaction.isCreditor?.firstName == user
+                        return transaction.isDebitor?.firstName == debitorName && transaction.isCreditor?.firstName == user
                     })
                     if filterArray.count > 0 {
                         dummyDict[user] = filterArray

@@ -26,6 +26,7 @@ let kSUCCESS_TITLE = "Sucess"
 let kSUCCESSFULLY_DATA_SAVED = "Record saved successfully"
 
 let kDUPLICATE_PHONENUMBER = "Please use Different Phone Number"
+let kDUPLICATE_USER_HANDLE = "User handle is already taken"
 
 let kEMPLY_FIELD = "Please provide all required information"
 let kINVALID_PHONE_NUMBER = "Invalid Phone number"

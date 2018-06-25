@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2C0D4C2E20D90FA6006FBEDA /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D4C2D20D90FA6006FBEDA /* DashboardViewController.swift */; };
 		2C0D4C3020D90FF1006FBEDA /* DashBoardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0D4C2F20D90FF1006FBEDA /* DashBoardViewModel.swift */; };
+		2C41E08120E0954D00DD1D6A /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C905FA720D8BDA200D9C387 /* LoginViewModel.swift */; };
 		2C6395CC20D8D12100E1D32E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6395CB20D8D12100E1D32E /* LoginViewController.swift */; };
 		2C6395D020D8FB1000E1D32E /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6395CF20D8FB1000E1D32E /* SignupViewController.swift */; };
 		2C6395D220D8FB5C00E1D32E /* SignupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6395D120D8FB5C00E1D32E /* SignupViewModel.swift */; };
@@ -326,6 +327,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C41E08120E0954D00DD1D6A /* LoginViewModel.swift in Sources */,
 				2C905F9A20D8B46F00D9C387 /* SplitExpenseTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -81,16 +81,17 @@ class DashBoardViewModel : NSObject{
         CoreDataManager.sharedInstanse.getAllTransactionForCurrentUser(successWithUserProfile: { (transactions) in
                 userTotalAmount = 0.0
             var transactionGroupByUserName =  [(String):[Transaction]]() // as NSDictionary
-            let currectUserID = CoreDataManager.sharedInstanse.userObject?.firstName
+            let currectUserID : String? = CoreDataManager.sharedInstanse.userObject?.userHandle
             for item in transactions{
-              let allKeys = Array(transactionGroupByUserName.keys)
-                
-                let userName : String? = item.isdebitor?.firstName == currectUserID ? item.isCreditor?.firstName : item.isdebitor?.firstName
-                
-                if userName == currectUserID {
+             
+                let allKeys = Array(transactionGroupByUserName.keys)
+                let userName : String?
+                if item.isDebitor?.userHandle == currectUserID {
                     userTotalAmount += item.amount
+                    userName = item.isCreditor?.userHandle
                 }
                 else {
+                     userName = item.isDebitor?.userHandle
                     userTotalAmount -= item.amount
                 }
                 
@@ -125,10 +126,10 @@ class DashBoardViewModel : NSObject{
         var secondUserTotal = 0.0
         
         for item in transactions {
-            if item.isdebitor?.firstName == currentUserId && item.isCreditor?.firstName == userId {
+            if item.isDebitor?.firstName == currentUserId && item.isCreditor?.firstName == userId {
                 currentUserTotal = currentUserTotal + item.amount
             }
-            else  if item.isdebitor?.firstName == userId && item.isCreditor?.firstName == currentUserId {
+            else  if item.isDebitor?.firstName == userId && item.isCreditor?.firstName == currentUserId {
                 secondUserTotal = secondUserTotal + item.amount
             }
         }
@@ -155,7 +156,6 @@ class DashBoardViewModel : NSObject{
             
             for item in transactions{
                 let allKeys = transactionGroupByUserName.keys
-     //           let userPhoneNumber =  " \((item.isCreditor?.phoneNumber)!) + \((item.isCreditor?.firstName)!)"
                 let userPhoneNumber =  (item.isCreditor?.firstName)!
                 if allKeys.contains((item.isCreditor?.firstName)!) {
                     var tt : [Transaction] = transactionGroupByUserName[userPhoneNumber]!
@@ -183,7 +183,7 @@ class DashBoardViewModel : NSObject{
                    var  dummyDict = [String:[Transaction]]()
                     
                     let filterArray = transactions.filter({ (transaction) -> Bool in
-                        return transaction.isdebitor?.firstName == debitorName && transaction.isCreditor?.firstName == user
+                        return transaction.isDebitor?.firstName == debitorName && transaction.isCreditor?.firstName == user
                     })
                     
                     dummyDict[user] = filterArray

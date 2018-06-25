@@ -44,7 +44,7 @@ class CoreDataManager {
             transaction.amount = amount
             transaction.creditor = creditor.firstName
             transaction.debitor = debitor.firstName
-            transaction.isdebitor = debitor
+            transaction.isDebitor = debitor
             transaction.isCreditor = creditor
             
             saveContext(successBlock: { (successMessage) in
@@ -80,10 +80,10 @@ class CoreDataManager {
     
     func getAllTransactionForCurrentUser(successWithUserProfile:(_ userProfile: [Transaction]) -> Void, failedWithError: (_ errorMessage: String?) -> Void) {
         
-            getUserDetailWith(phoneNumber: Authentication().currentUser!, successWithUserProfile: { (userObject) in
+            getUserDetailWith(userHandle: Authentication().currentUser!, successWithUserProfile: { (userObject) in
         
                 let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: KTRANSACTION_ENTITY_NAME)
-                let predicate = NSPredicate(format: "isCreditor.phoneNumber = %@ OR isdebitor.phoneNumber = %@", argumentArray: [(userObject.phoneNumber)!,(userObject.phoneNumber)!])
+                let predicate = NSPredicate(format: "isCreditor.userHandle = %@ OR isDebitor.userHandle = %@", argumentArray: [(userObject.userHandle)!,(userObject.userHandle)!])
                 fetchRequest.predicate = predicate
       
                 do {
@@ -125,10 +125,10 @@ class CoreDataManager {
         }
     }
     
-    func getUserDetailWith(phoneNumber: String, successWithUserProfile:(_ userProfile: Users) -> Void, failedWithError: (_ errorMessage: String?) -> Void) {
+    func getUserDetailWith(userHandle: String, successWithUserProfile:(_ userProfile: Users) -> Void, failedWithError: (_ errorMessage: String?) -> Void) {
         
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: KUSER_ENTITY_NAME)
-        fetchRequest.predicate = NSPredicate(format: "phoneNumber = %@",phoneNumber)
+        fetchRequest.predicate = NSPredicate(format: "userHandle = %@",userHandle)
         
         do {
             let user = try persistentContainer.viewContext.fetch(fetchRequest) as? [Users]
@@ -169,35 +169,49 @@ class CoreDataManager {
         }
     }
     
-    func saveUserData(_ firstName:String, _ lastName:String,_ email: String, _ phoneNumber: String, _ password:String, successWithMessage:@escaping (_ message: String) -> Void, failedWithError: @escaping (_ errorMessage: String?) -> Void)  {
+    func saveUserData(_ firstName:String, _ lastName:String,_ userHandle: String ,_ email: String, _ phoneNumber: String, _ password:String, successWithMessage:@escaping (_ message: String) -> Void, failedWithError: @escaping (_ errorMessage: String?) -> Void)  {
         
-        isDuplicatePhoneNumber(phoneNumber, isDuplicate: { (result) in
-            
+        isDuplicateHandle(userHandle, isDuplicate: { (result) in
             if result {
                 print("Duplicate Phone Number")
-                failedWithError(kDUPLICATE_PHONENUMBER)
+                failedWithError(kDUPLICATE_USER_HANDLE)
             }
             else {
-                let entityDescriptor = NSEntityDescription.entity(forEntityName: KUSER_ENTITY_NAME, in: persistentContainer.viewContext)
-                
-                let user = NSManagedObject(entity: entityDescriptor!, insertInto: persistentContainer.viewContext)
-                
-                user.setValue(firstName, forKey: "firstName")
-                user.setValue(lastName, forKey: "lastName")
-                user.setValue(email, forKey: "emailAddresss")
-                user.setValue(phoneNumber, forKey: "phoneNumber")
-                user.setValue(password, forKey: "password")
-                //            user.setValue("\(firstName+phoneNumber)", forKey: "userToken")
-                
-                saveContext(successBlock: { (successMessage) in
-                    successWithMessage(kSUCCESSFULLY_DATA_SAVED)
-                }) { (errorMessage) in
-                    failedWithError(errorMessage)
+                isDuplicatePhoneNumber(phoneNumber, isDuplicate: { (result) in
+                    
+                    if result {
+                        print("Duplicate Phone Number")
+                        failedWithError(kDUPLICATE_PHONENUMBER)
+                    }
+                    else {
+                        let entityDescriptor = NSEntityDescription.entity(forEntityName: KUSER_ENTITY_NAME, in: persistentContainer.viewContext)
+                        
+                        let user = NSManagedObject(entity: entityDescriptor!, insertInto: persistentContainer.viewContext)
+                        
+                        user.setValue(firstName, forKey: "firstName")
+                        user.setValue(lastName, forKey: "lastName")
+                        user.setValue(userHandle, forKey: "UserHandle")
+                        user.setValue(email, forKey: "emailAddresss")
+                        user.setValue(phoneNumber, forKey: "phoneNumber")
+                        user.setValue(password, forKey: "password")
+                       
+                        saveContext(successBlock: { (successMessage) in
+                            successWithMessage(kSUCCESSFULLY_DATA_SAVED)
+                        }) { (errorMessage) in
+                            failedWithError(errorMessage)
+                        }
+                    }
+                }) { (error) in
+                    failedWithError(error.localizedDescription)
                 }
             }
+            
+            
         }) { (error) in
-            failedWithError(error.localizedDescription)
+            print(error.description)
         }
+        
+        
     }
     
     func isDuplicatePhoneNumber(_ phoneNumber : String, isDuplicate: (Bool) -> Void, failiourBlock: (NSError) -> Void ) {
@@ -206,6 +220,29 @@ class CoreDataManager {
         
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: KUSER_ENTITY_NAME)
         fetchRequest.predicate = NSPredicate(format: "phoneNumber == %@", phoneNumber)
+        
+        do {
+            user = try persistentContainer.viewContext.fetch(fetchRequest) as? [Users]
+            print(user ?? "no users")
+            if (user?.count)! == 0 {
+                isDuplicate(false)
+            }
+            else {
+                isDuplicate(true)
+            }
+            
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+            failiourBlock(error)
+        }
+    }
+    
+    func isDuplicateHandle(_ userHandle : String, isDuplicate: (Bool) -> Void, failiourBlock: (NSError) -> Void ) {
+        
+        let user : [Users]?
+        
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: KUSER_ENTITY_NAME)
+        fetchRequest.predicate = NSPredicate(format: "userHandle == %@", userHandle)
         
         do {
             user = try persistentContainer.viewContext.fetch(fetchRequest) as? [Users]

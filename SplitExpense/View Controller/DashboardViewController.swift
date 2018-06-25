@@ -30,7 +30,13 @@ class DashboardViewController : UIViewController, DashBoardDelegate  {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel?.delegate = self
-        userNameTitle.text = CoreDataManager.sharedInstanse.userObject?.firstName
+        if (CoreDataManager.sharedInstanse.userObject?.userHandle) != nil{
+            userNameTitle.text = CoreDataManager.sharedInstanse.userObject?.userHandle
+        }
+        else{
+            userNameTitle.text = ""
+        }
+       
         navigationItem.rightBarButtonItem?.action = #selector(logoutAction)
     }
     
@@ -106,7 +112,7 @@ extension DashboardViewController : UITabBarDelegate,UITableViewDataSource {
         
         let transaction : Transaction? = transactionList[indexPath.row]
         
-        cell.debitorTitle.text = transaction?.isdebitor?.firstName
+        cell.debitorTitle.text = transaction?.isDebitor?.firstName
         cell.creditorTitle.text = transaction?.isCreditor?.firstName
         cell.amountTitle.text = String(format: "%.2f", (transaction?.amount)!)
         

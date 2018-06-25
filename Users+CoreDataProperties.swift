@@ -2,7 +2,7 @@
 //  Users+CoreDataProperties.swift
 //  SplitExpense
 //
-//  Created by pankaj on 6/20/18.
+//  Created by pankaj on 6/25/18.
 //  Copyright © 2018 Nigam. All rights reserved.
 //
 //
@@ -18,10 +18,11 @@ extension Users {
     }
 
     @NSManaged public var emailAddresss: String?
-    @NSManaged public var lastName: String?
     @NSManaged public var firstName: String?
+    @NSManaged public var lastName: String?
     @NSManaged public var password: String?
     @NSManaged public var phoneNumber: String?
+    @NSManaged public var userHandle: String?
     @NSManaged public var creditor: NSSet?
     @NSManaged public var debitor: NSSet?
 

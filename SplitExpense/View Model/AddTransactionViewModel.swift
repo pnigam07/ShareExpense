@@ -12,7 +12,7 @@ class AddTransactionViewModel {
     
     var selectedRow : Int?
     var creditor : Users?
-    var debitor : Users?
+    var debitor : Users? 
     
     init() {
 //        CoreDataManager.sharedInstanse.getAllUser(successWithUserProfile: { (allUsers) in

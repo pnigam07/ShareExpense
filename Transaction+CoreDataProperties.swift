@@ -2,7 +2,7 @@
 //  Transaction+CoreDataProperties.swift
 //  SplitExpense
 //
-//  Created by pankaj on 6/20/18.
+//  Created by pankaj on 6/25/18.
 //  Copyright © 2018 Nigam. All rights reserved.
 //
 //
@@ -21,6 +21,6 @@ extension Transaction {
     @NSManaged public var creditor: String?
     @NSManaged public var debitor: String?
     @NSManaged public var isCreditor: Users?
-    @NSManaged public var isdebitor: Users?
+    @NSManaged public var isDebitor: Users?
 
 }

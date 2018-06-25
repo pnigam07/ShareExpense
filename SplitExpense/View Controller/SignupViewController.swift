@@ -15,13 +15,14 @@ class SignupViewController: UIViewController {
     
     @IBOutlet weak var firstNameTextField: UITextField!
     @IBOutlet weak var lastNameTextField: UITextField!
+    @IBOutlet weak var userHandleTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var phoneNumberTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var confirmPasswordTextField: UITextField!
     
     @IBAction func submiAction(_ sender: Any) {
-        signUpViewModel.signUp(firstName: firstNameTextField.text, lastName: lastNameTextField.text, phoneNumber: phoneNumberTextField.text, email: emailTextField.text, password: passwordTextField.text, confirmPassword: confirmPasswordTextField.text )
+        signUpViewModel.signUp(firstName: firstNameTextField.text, lastName: lastNameTextField.text,userHandle:userHandleTextField.text, phoneNumber: phoneNumberTextField.text, email: emailTextField.text, password: passwordTextField.text, confirmPassword: confirmPasswordTextField.text )
     }
     
     @IBAction func backToLoginViewAction(_ sender: Any) {
@@ -44,7 +45,6 @@ extension SignupViewController : SignupViewModelDelegate {
                 UIAlertAction in
                 self.dismiss(animated: true, completion: nil)
             }
-            
             UtilClass.displayAlertViewWithCustomAction(titleText: kSUCCESS_TITLE, message: kSUCCESSFULLY_DATA_SAVED, viewController: self,action: okAction)
         })
     }
