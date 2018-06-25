@@ -60,7 +60,7 @@ extension LoginViewController : LoginViewModelDelegate {
             UtilClass.utilitySharedInstance.hideActivityIndicator()
             
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            let rootController = UIStoryboard(name: KMAINSTORYBOARDNAME, bundle: Bundle.main).instantiateViewController(withIdentifier: "DashBoardViewController")
+            let rootController = UIStoryboard(name: KMAINSTORYBOARDNAME, bundle: Bundle.main).instantiateViewController(withIdentifier: kDASHBOARD_VIEW_CONTROLLER_IDENTIFIER)
             appDelegate.window?.rootViewController = rootController
         })
     }

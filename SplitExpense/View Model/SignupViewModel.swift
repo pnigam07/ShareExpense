@@ -19,11 +19,11 @@ class SignupViewModel: NSObject {
     
     var errorMessage : String?
     
-    func signUp(firstName: String?,lastName: String?, phoneNumber: String?, email:String?, password: String?,confirmPassword:String?) {
+    func signUp(firstName: String?,lastName: String?,userHandle: String?, phoneNumber: String?, email:String?, password: String?,confirmPassword:String?) {
         // validation
         errorMessage = nil
         
-        if (UtilClass.isEmpty(firstName) || UtilClass.isEmpty(lastName) || UtilClass.isEmpty(phoneNumber) || UtilClass.isEmpty(password) || UtilClass.isEmpty(confirmPassword)) {
+        if (UtilClass.isEmpty(firstName) || UtilClass.isEmpty(lastName) || UtilClass.isEmpty(phoneNumber) || UtilClass.isEmpty(password) || UtilClass.isEmpty(confirmPassword) || UtilClass.isEmpty(userHandle)) {
             errorMessage = kEMPLY_FIELD
         }
         else {
@@ -39,10 +39,10 @@ class SignupViewModel: NSObject {
         }
         
         if errorMessage == nil{
-            CoreDataManager.sharedInstanse.saveUserData(firstName!, lastName!, email!, phoneNumber!, password!, successWithMessage: { (message) in
-                delegate?.signUpWithSuccess()
+            CoreDataManager.sharedInstanse.saveUserData(firstName!, lastName!,userHandle!, email!, phoneNumber!, password!, successWithMessage: { (message) in
+                self.delegate?.signUpWithSuccess()
             }) { (message) in
-                delegate?.showErroMesssage(message: message!)
+                self.delegate?.showErroMesssage(message: message!)
             }
         }
         else {
